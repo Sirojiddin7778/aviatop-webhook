@@ -10,6 +10,7 @@ def webhook():
         mode = request.args.get('hub.mode')
         token = request.args.get('hub.verify_token')
         challenge = request.args.get('hub.challenge')
+
         if mode == 'subscribe' and token == VERIFY_TOKEN:
             print("✅ Webhook tasdiqlandi!")
             return challenge, 200
@@ -17,11 +18,23 @@ def webhook():
             return 'Verification failed', 403
 
     elif request.method == 'POST':
-        data = request.json
-        print("💬 Yangi Instagram xabar:", data)
+        print("✅ POST method chaqirildi")
+
+        # Debug uchun har tomonlama tekshiruvlar
+        print("🟨 Request headers:", dict(request.headers))
+        print("🟧 Request body (raw):", request.get_data(as_text=True))
+
+        try:
+            data = request.json
+            print("🟩 Parsed JSON:", data)
+        except Exception as e:
+            print("❌ JSON parsing xatosi:", str(e))
+            return 'Bad Request', 400
+
+        print("🗨️ Yangi Instagram xabar:", data)
         return 'OK', 200
 
-# 👇 BULARNI YANGI QO‘SHDIK:
+# 🔁 Deauthorize va delete endpoint (majburiy emas, lekin kerak bo‘lishi mumkin)
 @app.route('/deauthorize', methods=['POST'])
 def deauthorize():
     print("❌ Instagram deauthorize request received.")
