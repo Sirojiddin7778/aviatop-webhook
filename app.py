@@ -11,15 +11,26 @@ def webhook():
         token = request.args.get('hub.verify_token')
         challenge = request.args.get('hub.challenge')
         if mode == 'subscribe' and token == VERIFY_TOKEN:
-            print("Webhook tasdiqlandi!")
+            print("✅ Webhook tasdiqlandi!")
             return challenge, 200
         else:
             return 'Verification failed', 403
 
     elif request.method == 'POST':
         data = request.json
-        print("🟢 Yangi Instagram xabar:", data)
+        print("💬 Yangi Instagram xabar:", data)
         return 'OK', 200
+
+# 👇 BULARNI YANGI QO‘SHDIK:
+@app.route('/deauthorize', methods=['POST'])
+def deauthorize():
+    print("❌ Instagram deauthorize request received.")
+    return 'OK', 200
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    print("🗑️ Instagram delete request received.")
+    return 'OK', 200
 
 from waitress import serve
 
