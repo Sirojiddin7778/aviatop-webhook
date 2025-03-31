@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: aviatop-bridge
+    runtime: python
+    repo: https://github.com/Sirojiddin7778/aviatop-webhook
+    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "waitress-serve --host=0.0.0.0 --port=5000 app:app"
+    plan: free
+    region: oregon
+    envVars: []
